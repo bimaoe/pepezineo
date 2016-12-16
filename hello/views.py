@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Greeting
+from .models import Card
 
 # Create your views here.
 def index(request):
@@ -11,10 +11,10 @@ def index(request):
 
 def db(request):
 
-    greeting = Greeting()
-    greeting.save()
+    card = Card(name='Knight', type=Card.COMMON)
+    card.save()
 
-    greetings = Greeting.objects.all()
+    cards = Card.objects.all()
 
-    return render(request, 'db.html', {'greetings': greetings})
+    return render(request, 'db.html', {'cards': cards})
 
