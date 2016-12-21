@@ -26,3 +26,14 @@ class Card(models.Model):
   @classmethod
   def get_type(cls, str_type):
     return cls.CARD_TYPES_IDICT[str_type]
+
+class User(models.Model):
+  handle = models.CharField('handle', primary_key=True, max_length=20)
+
+class MyCard(models.Model):
+  class Meta:
+    unique_together = (('user', 'card'),)
+  user = models.ForeignKey('user', on_delete=models.CASCADE)
+  card = models.ForeignKey('card', on_delete=models.PROTECT)
+  quantity = models.PositiveIntegerField('quantity')
+  level = models.PositiveIntegerField('level')
