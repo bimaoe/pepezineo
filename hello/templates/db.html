@@ -11,7 +11,7 @@
 <ul>
 
 {% for card in cards %}
-    <li>{{ card.name }}, {{ card.type }}</li>
+    <li>{{ card.name }} (Arena {{ card.arena }}, {{ card.type }}) elixir:{{ card.elixir }}</li>
 {% endfor %}
 
 </ul>
