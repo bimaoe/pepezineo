@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Pepezineo</h1>
+  </div>
+</div>
+<div class="container">
+  <form class="form-inline" action="/insert-cards-into-db" method="post"> {% csrf_token %}
+    <div id="new_card_inputs" class="go-away">
+      <fieldset id="card0" class="go-away">
+        <legend> Card 1 </legend>
+        <div class="form-group">
+          <label for="name"> Name: </label> 
+          <select name="name0" class="form-control">
+            {% for card in existing_cards %}
+              <option value="{{ card.name }}">{{ card.name }} </li>
+            {% endfor %}
+          </select>
+        </div>
+      </fieldset>
+    </div>
+    <div class="btn-group">
+      <button type="button" onclick="pepezineo.create_cards.add_new_card_input()" class="btn btn-default"> <spam class="glyphicon glyphicon-plus"/> </button>
+      <button type="submit" class="btn btn-success"> Submit </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

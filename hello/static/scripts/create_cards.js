@@ -1,4 +1,4 @@
-if (typeof pepezineo === 'undefined') {
+if (typeof pepezineo === "undefined") {
   pepezineo = {}
 }
 pepezineo.create_cards = {}

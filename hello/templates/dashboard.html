@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Pepezineo</h1>
+  </div>
+</div>
+<div class="container">
+  {% if my_card_list %}
+  	<h1> You have cards! </h1>
+  	<ul>
+  	{% for card in my_card_list %}
+    	<li>{{ card.name }} (Arena {{ card.arena }}, {{ card.type }}) elixir:{{ card.elixir }}</li>
+	{% endfor %}
+	</ul>
+  {% else %}
+  	<h1> You don't have cards :( </h1>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<script type="text/javascript" src="../static/scripts/add_card.js"></script>
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Pepezineo</h1>
+  </div>
+</div>
+<div class="container">
+  <form class="form-inline" action="/insert-my-card-into-db" method="post"> {% csrf_token %}
+    <div id="new_card_inputs" class="go-away">
+      <fieldset id="card" class="go-away">
+        <legend> Card </legend>
+        <div class="form-group">
+          <label for="name"> Name: </label> 
+          <select name="name" class="form-control" id="name">
+            <option disabled selected value> -- select an option -- </option>
+            {% for card in existing_cards %}
+              <option value={{ card.name }} data-type={{ card.type }}>{{ card.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="level"> Level: </label> 
+          <select name="level" class="form-control" id="level">
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="quantity"> Quantity: </label> 
+          <input type="number" name="quantity" class="form-control" min="0">
+        </div>
+      </fieldset>
+    </div>
+    <div class="btn-group">
+      <button type="submit" class="btn btn-success"> Submit </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
