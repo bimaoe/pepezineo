@@ -12,7 +12,7 @@ import hello.views
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
     url(r'^create-cards', hello.views.create_cards, name='create-cards'),
-    url(r'^add-card', hello.views.add_card, name='add-card'),
+    url(r'^update-card', hello.views.update_card, name='update-card'),
     url(r'^dashboard', hello.views.dashboard, name='dashboard'),
     url(r'^insert-cards-into-db', hello.views.insert_cards_into_db, 
         name='insert-cards-into-db'),

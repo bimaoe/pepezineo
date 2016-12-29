@@ -6,6 +6,9 @@ from .models import Card
 from .models import MyCard
 from .models import User
 
+def index(request):
+  return render(request, 'index.html')
+
 def test(request):
   print request.POST
   return HttpResponse('<pre>' + 'hello' + '</pre>')
@@ -42,10 +45,6 @@ def insert_my_card_into_db(request):
   my_card.save()
   return HttpResponseRedirect('/')
 
-# Create your views here.
-def index(request):
-  return render(request, 'index.html')
-
 def create_cards(request):
   return render(request, 'create-cards.html')
 
@@ -53,10 +52,10 @@ def db(request):
   cards = Card.objects.all()
   return render(request, 'db.html', {'cards': cards})
 
-def add_card(request):
+def update_card(request):
   existing_cards = Card.objects.all()
   existing_cards = sorted(existing_cards, key=lambda x: x.name)
-  return render(request, 'add-card.html', {'existing_cards': existing_cards})
+  return render(request, 'update-card.html', {'existing_cards': existing_cards})
 
 def dashboard(request):
   handle = 'pepezineo'
