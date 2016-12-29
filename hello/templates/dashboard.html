@@ -11,13 +11,26 @@
 <div class="container">
   {% if my_card_list %}
   	<h1> You have cards! </h1>
-  	<ul>
-  	{% for card in my_card_list %}
-    	<li>{{ card.name }} (Arena {{ card.arena }}, {{ card.type }}) elixir:{{ card.elixir }}</li>
-	{% endfor %}
-	</ul>
+  	<table class="table-striped">
+      <thead>
+        <tr class="row">
+          <th class="col-xs-6"> Card </td>
+          <th class="col-xs-3"> Level </td>
+          <th class="col-xs-3"> Quantity </td>
+        </tr>
+      </thead>
+      <tbody>
+      	{% for card in my_card_list %}
+          <tr class="row">
+            <td class="col-xs-6">{{ card.card.name }}</td>
+            <td class="col-xs-3">{{ card.level }}</td>
+            <td class="col-xs-3">{{ card.quantity }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
-  	<h1> You don't have cards :( </h1>
+    <h1> You don't have any card :( </h1>
   {% endif %}
 </div>
 {% endblock %}
