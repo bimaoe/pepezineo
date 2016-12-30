@@ -19,7 +19,7 @@
           <th class="col-xs-6"> Card </th>
           <th class="col-xs-2"> Level </th>
           <th class="col-xs-3"> Quantity </th>
-          <th class "col-xs-1"> Upgrade </th>
+          <th class="col-xs-1"> Upgrade </th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +28,7 @@
             <td class="col-xs-6 text-left">{{ card.card.name }}</td>
             <td class="col-xs-2 text-right">{{ card.level }}</td>
             <td class="col-xs-3 text-right">{{ card.quantity }}</td>
-            <td class "col-xs-1"> 
+            <td class="col-xs-1"> 
               <div class="text-center"> 
                 <form action="/upgrade-card" method="post"> {% csrf_token %}
                   <button type="submit" class="btn-sm btn-default btn-image glyphicon glyphicon-plus" name="card" value={{ card.card.name }}></button>
