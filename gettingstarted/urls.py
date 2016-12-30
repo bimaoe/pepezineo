@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^create-cards', hello.views.create_cards, name='create-cards'),
     url(r'^dashboard', hello.views.dashboard, name='dashboard'),
     url(r'^db', hello.views.db, name='db'),
+    url(r'^donate-cards', hello.views.donate_cards, name='donate-cards'),
     url(r'^insert-cards-into-db', hello.views.insert_cards_into_db, 
         name='insert-cards-into-db'),
     url(r'^insert-or-update-my-card-into-db', 

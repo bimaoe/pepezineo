@@ -7,7 +7,7 @@ from .models import MyCard
 from .models import User
 
 def index(request):
-""" Main page. """
+  """Main page. """
   return render(request, 'index.html')
 
 def test(request):
@@ -23,7 +23,7 @@ def create_cards(request):
   return render(request, 'create-cards.html')
 
 def dashboard(request):
-  """ User dashboard page. 
+  """User dashboard page. 
 
   Functionalities:
     Show user's card collection.
@@ -39,8 +39,31 @@ def db(request):
   cards = Card.objects.all()
   return render(request, 'db.html', {'cards': cards})
 
+def donate_cards(request):
+  """Card donation.
+
+  Functionalities:
+    Decrease the quantity of cards.
+  """
+  # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
+  handle = 'pepezineo'
+  user = User.objects.filter(handle=handle)
+  cards = Card.objects.filter(name__in=request.POST.keys())
+  my_cards = MyCard.objects.filter(user=user, card__in=cards)
+  cards_to_save = []
+  for my_card in my_cards:
+    my_card.quantity -= int(request.POST[my_card.card.name])
+    if my_card.quantity < 0:
+      raise ValueError('You do not have enough cards.')
+    cards_to_save.append(my_card)
+  # Save everything afterwards because if there is an error, we do not want any
+  # changes to be made.
+  for my_card in cards_to_save:
+    my_card.save()
+  return HttpResponse(status=200)
+
 def insert_cards_into_db(request):
-  """ Card insertion into database. 
+  """Card insertion into database. 
 
   Functionalities:
     Insert a new card into database.
@@ -86,7 +109,7 @@ def insert_or_update_my_card_into_db(request):
   return HttpResponseRedirect('/')
 
 def update_card(request):
-  """ Update card page. 
+  """Update card page. 
 
   Functionalities:
     Add card to user's card collection.
@@ -97,7 +120,7 @@ def update_card(request):
   return render(request, 'update-card.html', {'existing_cards': existing_cards})
 
 def upgrade_card(request):
-  """ Upgrade card. 
+  """Upgrade card. 
 
   Functionalities:
     Increase the level of the card by one.
@@ -108,7 +131,6 @@ def upgrade_card(request):
   """
   # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
   user = User(handle='pepezineo')
-  print request.POST['card']
   card = Card.objects.filter(name=request.POST['card'])[0]
 
   my_card = MyCard.objects.filter(user=user, card=card)[0]

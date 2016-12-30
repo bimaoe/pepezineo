@@ -3,7 +3,8 @@
 
 {% block content %}
 
-<script type="text/javascript" src="../static/scripts/update_card.js"></script>
+<script type="text/javascript" src="../static/scripts/setup.js"></script>
+<script type="text/javascript" src="../static/scripts/donate_cards.js"></script>
 
 <div class="jumbotron text-center">
   <div class="container">
@@ -18,22 +19,28 @@
         <tr class="row">
           <th class="col-xs-6"> Card </th>
           <th class="col-xs-2"> Level </th>
-          <th class="col-xs-3"> Quantity </th>
+          <th class="col-xs-2"> Quantity </th>
           <th class="col-xs-1"> Upgrade </th>
+          <th class="col-xs-1"> Donate </th>
         </tr>
       </thead>
       <tbody>
       	{% for card in my_card_list %}
           <tr class="row">
             <td class="col-xs-6 text-left">{{ card.card.name }}</td>
-            <td class="col-xs-2 text-right">{{ card.level }}</td>
-            <td class="col-xs-3 text-right">{{ card.quantity }}</td>
+            <td class="col-xs-2 text-right" id="{{ card.card.name }}-level">{{ card.level }}</td>
+            <td class="col-xs-2 text-right" id="{{ card.card.name }}-quantity">{{ card.quantity }}</td>
             <td class="col-xs-1"> 
               <div class="text-center"> 
                 <form action="/upgrade-card" method="post"> {% csrf_token %}
                   <button type="submit" class="btn-sm btn-default btn-image glyphicon glyphicon-plus" name="card" value={{ card.card.name }}></button>
                 </form> 
               </div> 
+            </td>
+            <td class="col-xs-1"> 
+              <div class="text-center"> {% csrf_token %}
+                <input type="number" class="donate-card-input" data-card={{ card.card.name }} class="form-control" min="0" max="{{ card.quantity }}">
+              </div>
             </td>
           </tr>
         {% endfor %}
