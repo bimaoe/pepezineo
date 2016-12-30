@@ -7,6 +7,7 @@ from .models import MyCard
 from .models import User
 
 def index(request):
+""" Main page. """
   return render(request, 'index.html')
 
 def test(request):
@@ -14,9 +15,21 @@ def test(request):
   return HttpResponse('<pre>' + 'hello' + '</pre>')
 
 def create_cards(request):
+  """Card creation page.
+
+  Functionalities:
+    Insert a new card into database.
+  """
   return render(request, 'create-cards.html')
 
 def dashboard(request):
+  """ User dashboard page. 
+
+  Functionalities:
+    Show user's card collection.
+    Upgrade the level of a card.
+  """
+  # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
   handle = 'pepezineo'
   user = User.objects.filter(handle=handle)
   my_card_list = MyCard.objects.filter(user=user)
@@ -27,6 +40,13 @@ def db(request):
   return render(request, 'db.html', {'cards': cards})
 
 def insert_cards_into_db(request):
+  """ Card insertion into database. 
+
+  Functionalities:
+    Insert a new card into database.
+
+  Redirects to: main page.
+  """
   i = 0
   while 'name' + str(i) in request.POST:
     cname = 'name' + str(i)
@@ -42,6 +62,14 @@ def insert_cards_into_db(request):
   return HttpResponseRedirect('/')
 
 def insert_or_update_my_card_into_db(request):
+  """ User card insertion or update. 
+
+  Functionalities:
+    Add new card to user's card collection.
+    Update level or quantity of a card of the card collection.
+
+  Redirects to: main page.
+  """
   # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
   user = User(handle='pepezineo')
   card = Card.objects.filter(name=request.POST['name'])[0]
@@ -58,11 +86,26 @@ def insert_or_update_my_card_into_db(request):
   return HttpResponseRedirect('/')
 
 def update_card(request):
+  """ Update card page. 
+
+  Functionalities:
+    Add card to user's card collection.
+    Update card's attributes if it was already in the collection.
+  """
   existing_cards = Card.objects.all()
   existing_cards = sorted(existing_cards, key=lambda x: x.name)
   return render(request, 'update-card.html', {'existing_cards': existing_cards})
 
 def upgrade_card(request):
+  """ Upgrade card. 
+
+  Functionalities:
+    Increase the level of the card by one.
+  
+  Raises:
+    Error: There are not enough cards to upgrade.
+    Error: The card has reached the maximum level.
+  """
   # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
   user = User(handle='pepezineo')
   print request.POST['card']
