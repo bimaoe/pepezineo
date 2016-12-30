@@ -42,19 +42,14 @@ def insert_cards_into_db(request):
   return HttpResponseRedirect('/')
 
 def insert_or_update_my_card_into_db(request):
-  # TODO(bimaoe, catita): Remove this gambiarra when creation of users is 
-  #     implemented.
-  pepezineo = User(handle='pepezineo')
-  pepezineo.save()
-
   # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
-  user = 'pepezineo'
+  user = User(handle='pepezineo')
   card = Card.objects.filter(name=request.POST['name'])[0]
-  my_card = MyCard.objects.filter(user=pepezineo, card=card)
+  my_card = MyCard.objects.filter(user=user, card=card)
   if my_card:
     my_card.update(level=request.POST['level'], quantity=request.POST['quantity'])
   else:
-    my_card = MyCard(user=pepezineo,
+    my_card = MyCard(user=user,
       card=card, 
       level=request.POST['level'], 
       quantity=request.POST['quantity'])
@@ -66,5 +61,18 @@ def update_card(request):
   existing_cards = sorted(existing_cards, key=lambda x: x.name)
   return render(request, 'update-card.html', {'existing_cards': existing_cards})
 
+def upgrade_card(request):
+  # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
+  user = User(handle='pepezineo')
+  print request.POST['card']
+  card = Card.objects.filter(name=request.POST['card'])[0]
 
-
+  my_card = MyCard.objects.filter(user=user, card=card)[0]
+  if my_card.quantity < Card.CARDS_REQUIRED_TO_UPGRADE[my_card.level-1]:
+    # TODO(bimaoe, catita): Show error message when there are not enough cards.
+    raise
+  else:
+    my_card.quantity -= Card.CARDS_REQUIRED_TO_UPGRADE[my_card.level-1]
+    my_card.level += 1
+    my_card.save()
+  return HttpResponseRedirect('/dashboard')

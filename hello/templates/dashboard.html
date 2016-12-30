@@ -3,6 +3,8 @@
 
 {% block content %}
 
+<script type="text/javascript" src="../static/scripts/update_card.js"></script>
+
 <div class="jumbotron text-center">
   <div class="container">
     <h1>Pepezineo</h1>
@@ -15,16 +17,24 @@
       <thead>
         <tr class="row">
           <th class="col-xs-6"> Card </th>
-          <th class="col-xs-3"> Level </th>
+          <th class="col-xs-2"> Level </th>
           <th class="col-xs-3"> Quantity </th>
+          <th class "col-xs-1"> Upgrade </th>
         </tr>
       </thead>
       <tbody>
       	{% for card in my_card_list %}
           <tr class="row">
-            <td class="col-xs-6">{{ card.card.name }}</td>
-            <td class="col-xs-3">{{ card.level }}</td>
-            <td class="col-xs-3">{{ card.quantity }}</td>
+            <td class="col-xs-6 text-left">{{ card.card.name }}</td>
+            <td class="col-xs-2 text-right">{{ card.level }}</td>
+            <td class="col-xs-3 text-right">{{ card.quantity }}</td>
+            <td class "col-xs-1"> 
+              <div class="text-center"> 
+                <form action="/upgrade-card" method="post"> {% csrf_token %}
+                  <button type="submit" class="btn-sm btn-default btn-image glyphicon glyphicon-plus" name="card" value={{ card.card.name }}></button>
+                </form> 
+              </div> 
+            </td>
           </tr>
         {% endfor %}
       </tbody>
