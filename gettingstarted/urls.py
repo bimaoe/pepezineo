@@ -11,6 +11,7 @@ import hello.views
 
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
+    url(r'^acquire-cards', hello.views.acquire_cards, name='acquire-cards'),
     url(r'^create-cards', hello.views.create_cards, name='create-cards'),
     url(r'^dashboard', hello.views.dashboard, name='dashboard'),
     url(r'^db', hello.views.db, name='db'),

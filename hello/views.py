@@ -5,6 +5,7 @@ import os
 from .models import Card
 from .models import MyCard
 from .models import User
+import json
 
 def index(request):
   """Main page. """
@@ -13,6 +14,28 @@ def index(request):
 def test(request):
   print request.POST
   return HttpResponse('<pre>' + 'hello' + '</pre>')
+
+def acquire_cards(request):
+  """Card acquisition (purchase or receiving).
+
+  Functionalities:
+    Increase the quantity of cards.
+  """
+  # TODO(bimaoe, catita): Remove this gambiarra when sessions are implemented.
+  handle = 'pepezineo'
+  user = User.objects.filter(handle=handle)
+  request_data = json.loads(request.body)
+  request_type = request_data['type']
+  card_dict = request_data['cards']
+
+
+  cards = Card.objects.filter(name__in=card_dict.keys())
+  my_cards = MyCard.objects.filter(user=user, card__in=cards)
+  cards_to_save = []
+  for my_card in my_cards:
+    my_card.quantity += int(card_dict[my_card.card.name])
+    my_card.save()
+  return HttpResponse(status=200)
 
 def create_cards(request):
   """Card creation page.
