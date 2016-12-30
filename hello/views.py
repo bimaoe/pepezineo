@@ -47,7 +47,8 @@ def insert_or_update_my_card_into_db(request):
   card = Card.objects.filter(name=request.POST['name'])[0]
   my_card = MyCard.objects.filter(user=user, card=card)
   if my_card:
-    my_card.update(level=request.POST['level'], quantity=request.POST['quantity'])
+    my_card.update(level=request.POST['level'], 
+        quantity=request.POST['quantity'])
   else:
     my_card = MyCard(user=user,
       card=card, 
@@ -69,7 +70,12 @@ def upgrade_card(request):
 
   my_card = MyCard.objects.filter(user=user, card=card)[0]
   if my_card.quantity < Card.CARDS_REQUIRED_TO_UPGRADE[my_card.level-1]:
+    # There are not enough cards.
     # TODO(bimaoe, catita): Show error message when there are not enough cards.
+    raise
+  elif my_card.level == Card.MAX_LEVEL[my_card.card.type-1]:
+    # It has reached the maximum level.
+    # TODO(bimaoe, catita): Show error message when the card cannot be upgraded.
     raise
   else:
     my_card.quantity -= Card.CARDS_REQUIRED_TO_UPGRADE[my_card.level-1]
